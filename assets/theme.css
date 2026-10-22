@@ -27,6 +27,10 @@
     --shadow: 0 .5rem 1.5rem rgb(212 36 90 / .18);
     --font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
     --radius: .6rem;
+    /* The faint heart pattern behind the hero, in the current accent - a
+       decoration only (CSS background, never read as content), so it is
+       just another variable the dark scheme below replaces like any other. */
+    --hero-pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'%3E%3Cpath fill='%23d4245a' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E");
 }
 
 @media (prefers-color-scheme: dark) {
@@ -45,6 +49,7 @@
         --success: #7ad9a0;
         --rating: #f0bb5a;
         --shadow: 0 .5rem 1.5rem rgb(0 0 0 / .5);
+        --hero-pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'%3E%3Cpath fill='%23ff7a9a' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E");
     }
 }
 
@@ -63,4 +68,107 @@
     --success: #7ad9a0;
     --rating: #f0bb5a;
     --shadow: 0 .5rem 1.5rem rgb(0 0 0 / .5);
+    --hero-pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'%3E%3Cpath fill='%23ff7a9a' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E");
+}
+
+/* The hero: a soft gradient toward the accent, plus the faint heart motif
+   as a background pattern - the dating extension's own "find your match"
+   pitch deserves a touch more presence than a plain heading and
+   paragraph. Still no template of its own: these rules target the classes
+   and the home-layout block ids (hero/features/cta, see home-layout.json)
+   that the "default" theme's generic home partials already render. */
+.home-hero {
+    position: relative;
+    overflow: hidden;
+    padding: 3rem 1.5rem;
+    border-radius: var(--radius);
+    background:
+        radial-gradient(circle at 20% 25%, rgb(212 36 90 / .1), transparent 55%),
+        linear-gradient(180deg, var(--surface), var(--ground));
+    text-align: center;
+}
+
+.home-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: .35;
+    background-image: var(--hero-pattern);
+    background-repeat: space;
+    background-size: 56px 56px;
+    pointer-events: none;
+}
+
+.home-hero > * {
+    position: relative;
+    z-index: 1;
+}
+
+.home-hero h1 {
+    margin: 0 0 .5rem;
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+}
+
+.home-hero p {
+    max-width: 40rem;
+    margin: 0 auto 1rem;
+    color: var(--muted);
+}
+
+[data-home-block="features"], [data-home-block="cta"] {
+    max-width: 48rem;
+    margin: 2rem auto;
+    padding: 1.5rem 1.75rem;
+    border-radius: var(--radius);
+    background: var(--surface);
+    box-shadow: var(--shadow);
+}
+
+[data-home-block="cta"] {
+    text-align: center;
+}
+
+/* The "how it works" steps: the ordered list home-layout.json's "features"
+   block carries in its body, turned into numbered rounded badges instead
+   of plain list numerals. */
+[data-home-block="features"] ol {
+    display: grid;
+    gap: 1rem;
+    margin: 1rem 0 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: step;
+}
+
+[data-home-block="features"] ol li {
+    position: relative;
+    padding-left: 2.6rem;
+    counter-increment: step;
+}
+
+[data-home-block="features"] ol li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: grid;
+    width: 1.8rem;
+    height: 1.8rem;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--accent);
+    color: var(--on-accent);
+    font-size: .9rem;
+    font-weight: 700;
+}
+
+[data-home-block="features"] ol h3 {
+    margin: 0 0 .25rem;
+    font-size: 1.05rem;
+}
+
+[data-home-block="features"] ol p {
+    margin: 0;
+    color: var(--muted);
 }
