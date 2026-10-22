@@ -1,8 +1,8 @@
 # Date
 
-A site theme for [Modulento](https://github.com/alex01at/modulento): a warm,
-romantic look in rose and coral. Built for the [dating
-extension](https://github.com/alex01at/modulento-ext-dating).
+A site theme for [Modulento](https://github.com/alex01at/modulento): a dark,
+glassy dashboard look in rose and coral, modelled on a dating-app mock-up
+design. Built for the [dating extension](https://github.com/alex01at/modulento-ext-dating).
 
 Unlike Modulento's other site themes (Indigo, Audigo, Merchigo, Card), this
 one brings no card partials for offers or providers - the dating extension
@@ -38,6 +38,18 @@ things of its own on top:
   beside it. The widget's own wording is in `lang/de.php` and `lang/en.php`
   (keys starting `theme.widget.`), editable the same way any other
   theme's small chrome texts are - see "Changing the wording" below.
+- **The "glass" panel look**: a translucent, blurred background
+  (`--glass-bg`/`--glass-border`, `backdrop-filter`) on every card-shaped
+  surface - the generic `.card-box` the dating extension's own account
+  pages use, the home page's text blocks, the account's dashboard and
+  settings cards, the inbox, the sticky header. One rose-to-orange
+  gradient (`--accent` to `--accent-2`) covers every button, the avatar
+  circles, and the dating extension's swipe card and match list
+  (`.date-card`, `.date-actions`, `.date-match-list`, `.date-avatar`,
+  `.chat-mine`/`.chat-theirs`) - CSS hooks that extension's own templates
+  carry, with no live data a theme has no business computing itself
+  (a profile's photo, name, age, bio, city and the real distance between
+  two accounts' saved locations, yes; nothing invented on top).
 
 ## Changing the wording
 
@@ -59,8 +71,10 @@ Like the rest of the home page, every block is edited in place
 in with that permission): click into a heading or text to change it, add
 pictures, reorder or remove blocks, or add a new one.
 
-The theme has a dark scheme. It follows the device, unless an account has
-chosen "light" or "dark" in its own settings.
+The dark scheme is this theme's primary identity - the look the mock-up
+this theme follows is built around - and the default on a device that
+asks for it; a lighter rose/coral variant exists too, for an account that
+chooses "light" in its own settings.
 
 A logo uploaded under **Administration → Themes → Branding** replaces the
 decorative mark and the site's name in the header and footer; a separate
@@ -83,9 +97,11 @@ By hand: unpack a release into `themes/date/` of the installation.
 A fresh installation's accent colour (**Administration → Design**) is
 Modulento's own neutral blue, not this theme's - that page always wins over
 the theme's stylesheet, by design, so an operator can retune any theme
-without editing files. To match the look this README describes, set the
-accent to a rose such as `#d4245a`, ground `#fff8f8`, text `#2b1620`, and
-the border radius to `8px`–`10px`.
+without editing files. To match the dark look this README describes, set
+the accent to `#ff3366`, ground `#0c0d14`, text `#f8fafc`, and the border
+radius to `16px`. Administration → Design has no field for a second
+gradient colour or the glass panels, though - those stay the theme's own
+(`--accent-2`, `--glass-bg`, `--glass-border` in `assets/theme.css`).
 
 ## Releasing
 

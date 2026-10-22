@@ -11,64 +11,80 @@
    theme's own. */
 :root {
     color-scheme: light;
-    --ground: #fff8f8;
-    --text: #2b1620;
-    --muted: #8a5c68;
-    --line: #f0d3da;
-    --surface: #fff0f2;
+    --ground: #fdf5f6;
+    --text: #241019;
+    --muted: #855c68;
+    --line: #eed2d9;
+    --surface: #fdeef1;
     --field: #fff;
     --field-line: #d98aa0;
-    --accent: #d4245a;
+    --accent: #e0245e;
+    /* The gradient's second stop - swipe-like's circle, buttons, the hero's glow. */
+    --accent-2: #ff7a4a;
     /* Text and icons on a filled accent, error or success area. */
     --on-accent: #fff;
     --error: #b3261e;
     --success: #1c6b3a;
     --rating: #b5800a;
-    --shadow: 0 .5rem 1.5rem rgb(212 36 90 / .18);
+    --shadow: 0 .6rem 1.75rem rgb(224 36 94 / .18);
+    /* The translucent "glass" panels (card-box, the header, chat bubbles, ...). */
+    --glass-bg: rgb(255 255 255 / .65);
+    --glass-border: rgb(224 36 94 / .12);
     --font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-    --radius: .6rem;
+    --radius: 1rem;
     /* The faint heart pattern behind the hero, in the current accent - a
        decoration only (CSS background, never read as content), so it is
        just another variable the dark scheme below replaces like any other. */
-    --hero-pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'%3E%3Cpath fill='%23d4245a' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E");
+    --hero-pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'%3E%3Cpath fill='%23e0245e' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E");
 }
 
+/* The dark scheme is this theme's primary identity - a near-black,
+   glassy "social app" look with a rose-to-orange gradient accent,
+   modelled on a dating-dashboard mock-up design the operator supplied.
+   It follows the device, unless an account has chosen "light" or "dark"
+   in its own settings (data-theme on <html>, see color_scheme()). */
 @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
         color-scheme: dark;
-        --ground: #1a1216;
-        --text: #f3e3e8;
-        --muted: #c99aa6;
-        --line: #3d242b;
-        --surface: #241a1e;
-        --field: #201519;
-        --field-line: #8a4f5c;
-        --accent: #ff7a9a;
-        --on-accent: #1a1216;
-        --error: #ff9a94;
-        --success: #7ad9a0;
-        --rating: #f0bb5a;
-        --shadow: 0 .5rem 1.5rem rgb(0 0 0 / .5);
-        --hero-pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'%3E%3Cpath fill='%23ff7a9a' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E");
+        --ground: #0c0d14;
+        --text: #f8fafc;
+        --muted: #94a3b8;
+        --line: rgb(255 255 255 / .08);
+        --surface: #141724;
+        --field: #1a1e30;
+        --field-line: rgb(255 255 255 / .16);
+        --accent: #ff3366;
+        --accent-2: #ff6b4a;
+        --on-accent: #fff;
+        --error: #f87171;
+        --success: #34d399;
+        --rating: #f5c044;
+        --shadow: 0 .75rem 2rem rgb(0 0 0 / .5);
+        --glass-bg: rgb(26 30 48 / .7);
+        --glass-border: rgb(255 255 255 / .08);
+        --hero-pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'%3E%3Cpath fill='%23ff3366' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E");
     }
 }
 
 :root[data-theme="dark"] {
     color-scheme: dark;
-    --ground: #1a1216;
-    --text: #f3e3e8;
-    --muted: #c99aa6;
-    --line: #3d242b;
-    --surface: #241a1e;
-    --field: #201519;
-    --field-line: #8a4f5c;
-    --accent: #ff7a9a;
-    --on-accent: #1a1216;
-    --error: #ff9a94;
-    --success: #7ad9a0;
-    --rating: #f0bb5a;
-    --shadow: 0 .5rem 1.5rem rgb(0 0 0 / .5);
-    --hero-pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'%3E%3Cpath fill='%23ff7a9a' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E");
+    --ground: #0c0d14;
+    --text: #f8fafc;
+    --muted: #94a3b8;
+    --line: rgb(255 255 255 / .08);
+    --surface: #141724;
+    --field: #1a1e30;
+    --field-line: rgb(255 255 255 / .16);
+    --accent: #ff3366;
+    --accent-2: #ff6b4a;
+    --on-accent: #fff;
+    --error: #f87171;
+    --success: #34d399;
+    --rating: #f5c044;
+    --shadow: 0 .75rem 2rem rgb(0 0 0 / .5);
+    --glass-bg: rgb(26 30 48 / .7);
+    --glass-border: rgb(255 255 255 / .08);
+    --hero-pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'%3E%3Cpath fill='%23ff3366' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E");
 }
 
 * { box-sizing: border-box; }
@@ -88,16 +104,22 @@ a { color: var(--accent); }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 .site-header {
-    /* The account menu opens below the header, against its right edge. */
-    position: relative;
+    /* The account menu opens below the header, against its right edge;
+       sticky with a blurred, translucent background, in the shape of the
+       dashboard mock-up this theme follows. */
+    position: sticky;
+    top: 0;
+    z-index: 50;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     gap: .75rem 1.5rem;
     padding: .75rem 1rem;
-    border-bottom: 1px solid var(--line);
-    background: var(--surface);
+    border-bottom: 1px solid var(--glass-border);
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
 }
 
 .site-header nav { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; }
@@ -155,8 +177,9 @@ main.app-shell {
 .stack-form button { margin-top: .5rem; justify-self: start; }
 
 input, select, button { font: inherit; padding: .45rem .6rem; border: 1px solid var(--field-line); border-radius: var(--radius); background: var(--field); color: var(--text); }
-button { background: var(--accent); border-color: var(--accent); color: var(--on-accent); cursor: pointer; }
-.link-button { border-radius: 0; background: none; color: var(--accent); }
+button { background: linear-gradient(135deg, var(--accent), var(--accent-2)); border: none; color: var(--on-accent); cursor: pointer; box-shadow: var(--shadow); }
+button:hover { filter: brightness(1.08); }
+.link-button { border-radius: 0; background: none; color: var(--accent); box-shadow: none; }
 ::placeholder { color: var(--muted); opacity: 1; }
 :disabled { opacity: .6; cursor: not-allowed; }
 
@@ -198,7 +221,8 @@ address { font-style: normal; }
 table { width: 100%; border-collapse: collapse; }
 th, td { padding: .5rem .6rem; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
 
-a.button { display: inline-block; margin-top: .5rem; padding: .45rem .8rem; border-radius: var(--radius); background: var(--accent); color: var(--on-accent); text-decoration: none; }
+a.button { display: inline-block; margin-top: .5rem; padding: .45rem .8rem; border-radius: var(--radius); background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: var(--on-accent); text-decoration: none; box-shadow: var(--shadow); }
+a.button:hover { filter: brightness(1.08); }
 .history { padding-left: 1.2rem; display: grid; gap: .6rem; }
 .history p, .message { margin: .25rem 0; padding: .5rem .7rem; background: var(--surface); border-left: .2rem solid var(--line); }
 .message.own { border-left-color: var(--accent); }
@@ -207,7 +231,7 @@ a.button { display: inline-block; margin-top: .5rem; padding: .45rem .8rem; bord
 .files li::before { content: "📎 "; }
 
 .badge { display: inline-block; padding: .15rem .5rem; border-radius: var(--radius); font-size: .85em; background: var(--surface); color: var(--muted); }
-.badge-verified { background: var(--accent); color: var(--on-accent); }
+.badge-verified { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: var(--on-accent); }
 .badge-earned, .badge-skill { border: 1px solid var(--line); }
 .badge-availability-available { background: var(--success); color: #fff; }
 .badge-availability-busy { background: var(--surface); color: var(--muted); }
@@ -229,7 +253,7 @@ a.button { display: inline-block; margin-top: .5rem; padding: .45rem .8rem; bord
 .dashboard-side { display: grid; gap: 1.5rem; }
 .dashboard-card { padding: 1.25rem; border: 1px solid var(--line); border-radius: .5rem; background: var(--surface); }
 .dashboard-card h2 { margin: 0 0 .5rem; font-size: 1.1rem; }
-.avatar { display: grid; place-items: center; width: 5rem; height: 5rem; margin: 0 auto 1rem; border-radius: 50%; background: var(--accent); color: var(--on-accent); font-size: 2rem; font-weight: 700; }
+.avatar { display: grid; place-items: center; width: 5rem; height: 5rem; margin: 0 auto 1rem; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: var(--on-accent); font-size: 2rem; font-weight: 700; }
 .dashboard-welcome { margin: 0 0 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
 .dashboard-links { list-style: none; margin: 0; padding: 0; display: grid; gap: .5rem; }
 .dashboard-links a { font-weight: 600; text-decoration: none; }
@@ -245,7 +269,7 @@ img.avatar { display: block; object-fit: cover; }
 /* --- The account menu in the header --- */
 .account-menu summary { display: block; border-radius: 50%; cursor: pointer; list-style: none; }
 .account-menu summary::-webkit-details-marker { display: none; }
-.account-menu-picture { display: grid; place-items: center; width: 2.25rem; height: 2.25rem; border-radius: 50%; background: var(--accent); color: var(--on-accent); font-weight: 700; line-height: 1; object-fit: cover; }
+.account-menu-picture { display: grid; place-items: center; width: 2.25rem; height: 2.25rem; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: var(--on-accent); font-weight: 700; line-height: 1; object-fit: cover; }
 .account-menu summary:hover .account-menu-picture, .account-menu[open] .account-menu-picture { box-shadow: 0 0 0 2px var(--ground), 0 0 0 4px var(--accent); }
 /* Placed against the header, not against the picture: wherever the picture
    ends up when the header wraps on a narrow screen, the menu stays inside. */
@@ -428,4 +452,252 @@ img.avatar { display: block; object-fit: cover; }
 [data-home-block="features"] ol p {
     margin: 0;
     color: var(--muted);
+}
+
+/* --- The "glass" panel look: a translucent, blurred card, the identity
+   the dashboard mock-up this theme follows is built on. One combined rule
+   so every panel - the generic .card-box (used by the dating extension's
+   own templates), the home page's text blocks, the account's dashboard
+   and settings cards, the inbox - shares it, instead of repeating the
+   three properties on each of their own rules above. Comes late in the
+   file on purpose, so it wins over the plainer background/border each of
+   them set earlier. --- */
+.card-box,
+.dashboard-card,
+.account-tab > section,
+.inbox-list,
+[data-home-block="features"],
+[data-home-block="cta"] {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+
+/* --- The swipe card (templates/swipe.twig of the dating extension): a
+   tall photo card with a gradient scrim and the name/city/bio over it,
+   white text regardless of colour scheme since it always sits on a photo
+   or, without one, a plain surface. --- */
+.date-card {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: 30rem;
+    border-radius: 1.5rem;
+    box-shadow: var(--shadow);
+}
+
+.date-card-photo {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background-color: var(--surface);
+    background-size: cover;
+    background-position: center;
+}
+
+.date-card-photo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 35%, rgb(0 0 0 / .75) 100%);
+}
+
+.date-card-initial {
+    position: relative;
+    font-size: 5rem;
+    font-weight: 800;
+    color: var(--muted);
+}
+
+.date-card-badge {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    z-index: 1;
+    padding: .3rem .85rem;
+    border-radius: 999px;
+    background: rgb(0 0 0 / .55);
+    backdrop-filter: blur(6px);
+    color: #fff;
+    font-size: .8rem;
+    font-weight: 600;
+}
+
+.date-card-content {
+    position: relative;
+    z-index: 1;
+    padding: 1.5rem;
+    color: #fff;
+}
+
+.date-card-content h2 {
+    margin: 0 0 .2rem;
+    font-size: 1.7rem;
+    font-weight: 800;
+}
+
+.date-card-city {
+    margin: 0 0 .6rem;
+    opacity: .85;
+    font-size: .9rem;
+}
+
+.date-card-bio {
+    margin: 0;
+    max-width: 34rem;
+    line-height: 1.5;
+}
+
+/* The pass/like buttons below the card. */
+.date-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+}
+
+.date-action {
+    width: 4rem;
+    height: 4rem;
+    padding: 0;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--glass-border);
+    border-radius: 50%;
+    background: var(--field);
+    color: var(--text);
+    font-size: 1.4rem;
+    box-shadow: var(--shadow);
+    transition: transform .2s ease;
+}
+
+.date-action:hover {
+    transform: scale(1.08);
+}
+
+.date-action-pass {
+    color: var(--error);
+}
+
+.date-action-like {
+    width: 4.75rem;
+    height: 4.75rem;
+    border: none;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    color: #fff;
+    font-size: 1.7rem;
+}
+
+/* --- The match list (templates/matches.twig): a gradient-ringed round
+   avatar (or an initial where there is no photo) per match. --- */
+.date-match-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: .3rem;
+}
+
+.date-match-item {
+    display: flex;
+    align-items: center;
+    gap: .9rem;
+    padding: .7rem 1rem;
+    border-radius: var(--radius);
+    color: var(--text);
+    text-decoration: none;
+}
+
+.date-match-item:hover {
+    background: var(--surface);
+}
+
+.date-avatar {
+    position: relative;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    overflow: hidden;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    color: #fff;
+    font-weight: 700;
+}
+
+.date-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.date-unread-badge {
+    margin-left: auto;
+    padding: .15rem .55rem;
+    border-radius: 999px;
+    background: var(--accent);
+    color: #fff;
+    font-size: .75rem;
+    font-weight: 700;
+}
+
+/* --- The chat (templates/chat.twig): bubbles instead of plain left-bordered
+   paragraphs, "mine" on the right in the accent gradient. --- */
+.chat {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    margin: 1rem 0;
+}
+
+.chat p {
+    max-width: 75%;
+    margin: 0;
+    padding: .6rem .95rem;
+    border-radius: 1.1rem;
+    line-height: 1.45;
+}
+
+.chat-theirs {
+    align-self: flex-start;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-bottom-left-radius: .3rem;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+
+.chat-mine {
+    align-self: flex-end;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    color: #fff;
+    border-bottom-right-radius: .3rem;
+}
+
+/* The right rail's small promo widget (layout/base.twig): the one panel
+   that stays in the accent gradient rather than the glass look, since it
+   is meant to read as a call to action, not a content card. */
+.app-widget {
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    border: none;
+    color: #fff;
+}
+
+.app-widget h2, .app-widget p {
+    color: #fff;
+}
+
+.app-widget p {
+    opacity: .9;
+}
+
+.app-widget .button {
+    background: #fff;
+    color: var(--accent);
+    box-shadow: none;
 }
