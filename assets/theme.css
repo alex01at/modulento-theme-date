@@ -1,14 +1,14 @@
-/* Site theme "date": a warm, romantic look in rose and coral, built
-   for the dating extension. Deliberately palette-only - the dating app has
-   no catalogue (no offers, no provider profiles), so there is nothing to
-   give a bespoke card layout the way a marketplace theme would; every page
-   still comes from the "default" theme's own templates, and only looks
-   different because every colour here is the same CSS variable that theme
-   already reads. Colours are variables, so the dark scheme only has to
-   replace them. Light is the default; dark applies when the device asks
-   for it and the account has not chosen "light" (data-theme on <html>, see
-   color_scheme()), or when the account has chosen "dark". Both blocks
-   carry the same values. */
+/* Site theme "date": a warm, romantic look in rose and coral, built for
+   the dating extension. A theme's stylesheet is never merged with
+   "default"'s - whichever theme is active supplies the ONLY stylesheet
+   the site loads, even for the templates this theme does not override
+   (home.twig/layout/base.twig and everything else come from "default").
+   So unlike the colour-only first cut of this file, everything below the
+   colour variables is "default"'s own base.css, carried over verbatim -
+   every class a template anywhere on the site actually uses (the header,
+   the account menu, card lists, forms, the dashboard, the inbox, ...) -
+   with only the colours (and the small additions at the very end) this
+   theme's own. */
 :root {
     color-scheme: light;
     --ground: #fff8f8;
@@ -71,12 +71,237 @@
     --hero-pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'%3E%3Cpath fill='%23ff7a9a' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E");
 }
 
-/* The hero: a soft gradient toward the accent, plus the faint heart motif
-   as a background pattern - the dating extension's own "find your match"
-   pitch deserves a touch more presence than a plain heading and
-   paragraph. Still no template of its own: these rules target the classes
-   and the home-layout block ids (hero/features/cta, see home-layout.json)
-   that the "default" theme's generic home partials already render. */
+* { box-sizing: border-box; }
+
+body {
+    /* The footer stays at the bottom of the window on short pages. */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    background: var(--ground);
+    color: var(--text);
+    font: 1rem/1.55 var(--font);
+}
+
+a { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.site-header {
+    /* The account menu opens below the header, against its right edge. */
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: .75rem 1.5rem;
+    padding: .75rem 1rem;
+    border-bottom: 1px solid var(--line);
+    background: var(--surface);
+}
+
+.site-header nav { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; }
+.site-name { display: flex; align-items: center; font-weight: 700; text-decoration: none; color: var(--text); }
+.site-logo { display: block; height: 2rem; width: auto; max-width: 12rem; object-fit: contain; }
+.site-logo-dark { display: none; }
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .site-logo-light { display: none; }
+    :root:not([data-theme="light"]) .site-logo-dark { display: block; }
+}
+:root[data-theme="dark"] .site-logo-light { display: none; }
+:root[data-theme="dark"] .site-logo-dark { display: block; }
+
+main { flex: 1 0 auto; width: 100%; max-width: 64rem; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
+.account-nav { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--line); }
+.account-nav a { padding: .35rem .8rem; border: 1px solid var(--line); border-radius: 2rem; text-decoration: none; }
+.account-nav a:hover { border-color: var(--accent); }
+
+.inline-form { display: inline; margin: 0; }
+.link-button { padding: 0; border: 0; background: none; color: var(--accent); font: inherit; text-decoration: underline; cursor: pointer; }
+
+.stack-form { display: grid; gap: .5rem; max-width: 24rem; }
+.stack-form button { margin-top: .5rem; justify-self: start; }
+
+input, select, button { font: inherit; padding: .45rem .6rem; border: 1px solid var(--field-line); border-radius: var(--radius); background: var(--field); color: var(--text); }
+button { background: var(--accent); border-color: var(--accent); color: var(--on-accent); cursor: pointer; }
+.link-button { border-radius: 0; background: none; color: var(--accent); }
+::placeholder { color: var(--muted); opacity: 1; }
+:disabled { opacity: .6; cursor: not-allowed; }
+
+.flash { padding: .6rem .8rem; border-left: .25rem solid var(--muted); background: var(--surface); }
+.flash-error { border-color: var(--error); color: var(--error); }
+.flash-success { border-color: var(--success); color: var(--success); }
+
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+section { margin-top: 2.5rem; }
+button.danger { background: var(--error); border-color: var(--error); color: var(--on-accent); }
+
+.site-footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .75rem 2rem; padding: 1rem; border-top: 1px solid var(--line); background: var(--surface); }
+.site-footer nav { display: flex; flex-wrap: wrap; gap: 1rem; }
+.language-menu [aria-current] { font-weight: 700; }
+label.checkbox { display: flex; gap: .5rem; align-items: flex-start; }
+label.checkbox input { margin-top: .3rem; }
+article { overflow-wrap: anywhere; }
+
+.stack-form.wide { max-width: 44rem; }
+fieldset { margin: 1.5rem 0 0; padding: 1rem; border: 1px solid var(--line); border-radius: var(--radius); display: grid; gap: .5rem; }
+legend { font-weight: 700; padding: 0 .4rem; }
+textarea { font: inherit; padding: .45rem .6rem; border: 1px solid var(--field-line); border-radius: var(--radius); width: 100%; background: var(--field); color: var(--text); }
+small, .muted { color: var(--muted); }
+.card-list { list-style: none; padding: 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); }
+.card-list li { padding: 1rem; border: 1px solid var(--line); border-radius: var(--radius); display: grid; gap: .25rem; }
+.pager { display: flex; gap: 1rem; margin-top: 1.5rem; }
+address { font-style: normal; }
+
+.card-list img { width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: .2rem; }
+.gallery { display: grid; gap: .5rem; grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr)); margin: 1rem 0; }
+.gallery a:first-child { grid-column: 1 / -1; }
+.gallery img { width: 100%; height: auto; border-radius: var(--radius); }
+.filter-row, .button-row { display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; margin: 1rem 0; }
+.category-nav { display: flex; flex-wrap: wrap; gap: .4rem 1rem; margin: 1rem 0; }
+.category-nav .child { font-size: .9rem; }
+.category-nav [aria-current] { font-weight: 700; text-decoration: none; }
+.price { font-weight: 700; }
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: .5rem .6rem; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+
+a.button { display: inline-block; margin-top: .5rem; padding: .45rem .8rem; border-radius: var(--radius); background: var(--accent); color: var(--on-accent); text-decoration: none; }
+.history { padding-left: 1.2rem; display: grid; gap: .6rem; }
+.history p, .message { margin: .25rem 0; padding: .5rem .7rem; background: var(--surface); border-left: .2rem solid var(--line); }
+.message.own { border-left-color: var(--accent); }
+
+.files { list-style: none; padding: 0; margin: .25rem 0; }
+.files li::before { content: "📎 "; }
+
+.badge { display: inline-block; padding: .15rem .5rem; border-radius: var(--radius); font-size: .85em; background: var(--surface); color: var(--muted); }
+.badge-verified { background: var(--accent); color: var(--on-accent); }
+.badge-earned, .badge-skill { border: 1px solid var(--line); }
+.badge-availability-available { background: var(--success); color: #fff; }
+.badge-availability-busy { background: var(--surface); color: var(--muted); }
+.badge-availability-paused { border: 1px solid var(--line); }
+
+.portfolio-grid { display: flex; flex-wrap: wrap; gap: 1rem; padding: 0; list-style: none; }
+.portfolio-grid figure { margin: 0; width: 180px; }
+.portfolio-grid img { display: block; width: 100%; height: auto; border-radius: var(--radius); }
+.portfolio-grid figcaption { font-size: .9em; color: var(--muted); }
+
+.rating { color: var(--rating); white-space: nowrap; }
+.rating small { color: var(--muted); }
+.review { padding: .75rem 0; border-top: 1px solid var(--line); }
+.review p { margin: .25rem 0; }
+.reply { margin-left: 1.5rem; padding: .5rem .7rem; background: var(--surface); border-left: .2rem solid var(--accent); }
+
+/* --- The account's overview --- */
+.dashboard { display: grid; gap: 2rem; grid-template-columns: minmax(0, 18rem) minmax(0, 1fr); align-items: start; }
+.dashboard-side { display: grid; gap: 1.5rem; }
+.dashboard-card { padding: 1.25rem; border: 1px solid var(--line); border-radius: .5rem; background: var(--surface); }
+.dashboard-card h2 { margin: 0 0 .5rem; font-size: 1.1rem; }
+.avatar { display: grid; place-items: center; width: 5rem; height: 5rem; margin: 0 auto 1rem; border-radius: 50%; background: var(--accent); color: var(--on-accent); font-size: 2rem; font-weight: 700; }
+.dashboard-welcome { margin: 0 0 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+.dashboard-links { list-style: none; margin: 0; padding: 0; display: grid; gap: .5rem; }
+.dashboard-links a { font-weight: 600; text-decoration: none; }
+.dashboard-main h1 { margin-top: 0; }
+.dashboard-tiles { list-style: none; margin: 0 0 2rem; padding: 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); }
+.dashboard-tiles li { display: grid; gap: .25rem; padding: 1rem; border: 1px solid var(--line); border-radius: .5rem; background: var(--surface); }
+.dashboard-tiles strong { font-size: 1.6rem; line-height: 1.2; }
+.dashboard-heading { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .5rem 1rem; }
+.dashboard-main section { margin-bottom: 2rem; }
+@media (max-width: 48rem) { .dashboard { grid-template-columns: minmax(0, 1fr); } }
+img.avatar { display: block; object-fit: cover; }
+
+/* --- The account menu in the header --- */
+.account-menu summary { display: block; border-radius: 50%; cursor: pointer; list-style: none; }
+.account-menu summary::-webkit-details-marker { display: none; }
+.account-menu-picture { display: grid; place-items: center; width: 2.25rem; height: 2.25rem; border-radius: 50%; background: var(--accent); color: var(--on-accent); font-weight: 700; line-height: 1; object-fit: cover; }
+.account-menu summary:hover .account-menu-picture, .account-menu[open] .account-menu-picture { box-shadow: 0 0 0 2px var(--ground), 0 0 0 4px var(--accent); }
+/* Placed against the header, not against the picture: wherever the picture
+   ends up when the header wraps on a narrow screen, the menu stays inside. */
+.account-menu-items { position: absolute; z-index: 10; top: calc(100% - .35rem); right: 1rem; display: grid; gap: .6rem; min-width: 12rem; max-width: calc(100% - 2rem); padding: .9rem 1rem; border: 1px solid var(--line); border-radius: .4rem; background: var(--ground); box-shadow: var(--shadow); }
+.account-menu-name { padding-bottom: .6rem; border-bottom: 1px solid var(--line); color: var(--muted); font-size: .9rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.account-menu-items form { margin: 0; }
+
+/* --- "Show password", added by password-toggle.js --- */
+.password-field { display: flex; gap: .4rem; }
+.password-field input { flex: 1 1 auto; min-width: 0; }
+.password-toggle, .stack-form .password-toggle { flex: none; margin: 0; border-color: var(--field-line); background: var(--surface); color: var(--text); font-size: .85rem; white-space: nowrap; }
+.account-menu-scheme { display: grid; gap: .35rem; font-size: .9rem; color: var(--muted); }
+.account-menu-choices { display: flex; gap: .3rem; }
+.account-menu-choices button { flex: 1 1 0; margin: 0; padding: .3rem .4rem; border: 1px solid var(--line); border-radius: var(--radius); background: transparent; color: var(--text); font-size: .85rem; cursor: pointer; }
+.account-menu-choices button[aria-pressed="true"] { border-color: var(--accent); background: var(--accent); color: var(--on-accent); }
+
+/* Tabs of a settings page; [hidden] wins over the display rules of sections. */
+[hidden] { display: none !important; }
+.tabs { display: flex; flex-wrap: wrap; gap: .5rem; margin: 0 0 1.5rem; }
+.tabs a { display: inline-flex; align-items: center; min-height: 2.5rem; padding: .4rem 1.1rem; border: 1px solid var(--field-line, #8794a0); border-radius: var(--radius); background: var(--field, #fff); color: var(--text, inherit); font-weight: 500; text-decoration: none; }
+.tabs a:hover { border-color: var(--accent); color: var(--accent); }
+.tabs a[aria-current] { border-color: var(--accent); background: var(--accent); color: var(--on-accent); }
+/* Fields of a form fill its width, also on a phone; a password field keeps its "show" button beside it. */
+.stack-form input:not([type="checkbox"]):not([type="radio"]):not([type="file"]), .stack-form select { width: 100%; max-width: 100%; }
+
+/* Conversations about an offer. */
+.offer-messages .thread { margin-top: 1.25rem; }
+.thread-messages { display: grid; gap: .5rem; margin: 0 0 1rem; padding: 0; list-style: none; }
+.thread-messages li { padding: .6rem .8rem; border: 1px solid var(--line); border-radius: .4rem; }
+.thread-messages li.is-mine { background: var(--field); border-color: var(--accent); }
+.thread-messages p { margin: .3rem 0 0; }
+
+/* The number of unread messages, on the inbox envelope in the header. */
+.inbox-link { position: relative; display: inline-flex; align-items: center; font-size: 1.3rem; line-height: 1; text-decoration: none; }
+.unread-badge { position: absolute; top: -.35rem; right: -.45rem; min-width: 1.25rem; height: 1.25rem; padding: 0 .3rem; border-radius: 999px; background: var(--error); color: #fff; font-size: .7rem; font-weight: 700; line-height: 1.25rem; text-align: center; }
+
+/* The inbox: one row per conversation, newest activity first. Clicking a
+   row opens it in place (a <details> element - works without scripts);
+   the reply form posts to the same route the full order/offer page uses. */
+.inbox-list { padding: 0; margin: 0 0 1rem; list-style: none; border: 1px solid var(--line); border-radius: .4rem; overflow: hidden; }
+.inbox-list li { border-bottom: 1px solid var(--line); }
+.inbox-list li:last-child { border-bottom: none; }
+.inbox-list summary { display: grid; grid-template-columns: minmax(10rem, 16rem) 1fr auto; align-items: baseline; gap: 1rem; padding: .7rem 1rem; cursor: pointer; list-style: none; }
+.inbox-list summary::-webkit-details-marker { display: none; }
+.inbox-list summary:hover { background: var(--surface); }
+.inbox-list .sender { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.inbox-list .subject-preview { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--muted); }
+.inbox-list .preview-text { color: var(--muted); }
+.inbox-list .date { color: var(--muted); font-size: .85em; white-space: nowrap; }
+.inbox-list li.is-unread summary { font-weight: 600; background: var(--surface); }
+.inbox-list li.is-unread .subject-preview { color: var(--text); }
+.inbox-list .thread-detail { padding: 0 1rem 1rem; border-top: 1px solid var(--line); }
+.inbox-list .thread-detail .thread-messages { margin-top: 1rem; }
+
+/* The account settings: each tab is a grid of cards, one column on a phone. */
+.account-tab { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); gap: 1.25rem; align-items: start; margin-top: 1.25rem; }
+.account-tab > section { padding: 1.25rem 1.4rem; border: 1px solid var(--line); border-radius: .6rem; background: var(--ground); box-shadow: var(--shadow); }
+.account-tab > section > h2 { margin: 0 0 .6rem; font-size: 1.1rem; }
+.account-tab > section > p { margin: 0 0 .75rem; color: var(--muted); }
+.account-tab .stack-form { max-width: none; }
+.account-tab .stack-form label { font-weight: 600; }
+.account-tab fieldset { margin: 0; padding: .75rem 1rem; }
+.account-tab table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+.account-tab th, .account-tab td { padding: .45rem .4rem; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+.account-tab .avatar, .account-tab img.avatar { border-radius: 50%; }
+
+/* The handbook: a numbered table of contents and a pager between chapters. */
+.handbook-toc { padding-left: 1.4rem; display: grid; gap: .5rem; }
+.handbook-chapter h2 { margin-top: 2rem; }
+.handbook-chapter table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+.handbook-chapter th, .handbook-chapter td { padding: .45rem .6rem; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+.handbook-chapter pre { padding: .75rem 1rem; border-radius: .5rem; background: var(--ground); border: 1px solid var(--line); overflow-x: auto; }
+.handbook-pager { display: flex; justify-content: space-between; gap: 1rem; margin-top: 2.5rem; padding-top: 1.25rem; border-top: 1px solid var(--line); }
+.handbook-chapter dl { display: grid; gap: .3rem 0; }
+.handbook-chapter dt { font-weight: 700; margin-top: 1rem; }
+.handbook-chapter dd { margin: 0 0 .4rem; color: var(--muted); }
+
+/* A generic padded, bordered box - used by several extensions' own
+   templates (including the dating extension's) that are never shown
+   under "default" alone, so this class is not "default"'s own, but
+   every theme needs it once any such extension is active. */
+.card-box { padding: 1.25rem 1.4rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+
+/* --- The hero and the home page's text blocks: "find your match" deserves
+   a touch more presence than a plain heading and paragraph. Still no
+   template of its own: these rules target the classes and the
+   home-layout block ids (hero/features/cta, see home-layout.json) that
+   the "default" theme's generic home partials already render. --- */
 .home-hero {
     position: relative;
     overflow: hidden;

@@ -5,21 +5,27 @@ romantic look in rose and coral. Built for the [dating
 extension](https://github.com/alex01at/modulento-ext-dating).
 
 Unlike Modulento's other site themes (Indigo, Audigo, Merchigo, Card), this
-one is deliberately palette-only. Those themes each bring their own layout,
-home page and card partials for offers and providers, because the apps they
-are built for actually have those - a shop lists products, an auction
-lists lots. The dating extension has neither: no catalogue, no provider
-profiles, nothing to sell. So Date changes exactly two things:
+one brings no templates of its own at all - no bespoke layout, no card
+partials for offers or providers - because the dating extension has
+neither a catalogue nor provider profiles to give a bespoke layout to.
+Every page's markup comes straight from the `default` theme.
 
-- **The home page's content** (`home-layout.json`): a hero pitching the app,
-  a "how it works" section, and a pricing call-to-action - instead of the
-  default theme's catalogue-shaped hero/categories/offers/providers blocks,
-  which would otherwise sit empty on a dating install.
-- **The colour palette** (`assets/theme.css`): every colour Modulento's
-  `default` theme already uses is a CSS variable: this theme only replaces
-  their values. Every page - home, swipe, matches, chat, the account pages,
-  even the administration's own templates it does not touch - therefore
-  already looks like Date, with no template overrides at all.
+A theme's stylesheet is never merged with another's, though: whichever
+theme is active supplies the *only* stylesheet the site loads, for every
+page, including the ones this theme does not override. So `assets/theme.css`
+still has to be a complete stylesheet - every class any template on the
+site actually uses, not just a handful of colour variables - with two
+things of its own on top:
+
+- **The colour palette**: every colour Modulento's `default` theme already
+  uses is a CSS variable; the base rules below them are `default`'s own,
+  carried over so the site keeps working, just recoloured.
+- **The home page's content** (`home-layout.json`) and a handful of extra
+  rules for it: a hero pitching the app with a soft gradient and a faint
+  heart pattern, a numbered "how it works" section, and a pricing
+  call-to-action - instead of the default theme's catalogue-shaped
+  hero/categories/offers/providers blocks, which would otherwise sit empty
+  on a dating install.
 
 Like the rest of the home page, every block is edited in place
 (**Administration → Home page**, or directly on the page itself when signed
