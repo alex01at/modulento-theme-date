@@ -35,7 +35,6 @@
     /* The faint heart pattern behind the hero, in the current accent - a
        decoration only (CSS background, never read as content), so it is
        just another variable the dark scheme below replaces like any other. */
-    --hero-pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'%3E%3Cpath fill='%23e0245e' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E");
 }
 
 /* The dark scheme is this theme's primary identity - a near-black,
@@ -62,7 +61,6 @@
         --shadow: 0 .75rem 2rem rgb(0 0 0 / .5);
         --glass-bg: rgb(26 30 48 / .7);
         --glass-border: rgb(255 255 255 / .08);
-        --hero-pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'%3E%3Cpath fill='%23ff3366' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E");
     }
 }
 
@@ -84,7 +82,6 @@
     --shadow: 0 .75rem 2rem rgb(0 0 0 / .5);
     --glass-bg: rgb(26 30 48 / .7);
     --glass-border: rgb(255 255 255 / .08);
-    --hero-pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'%3E%3Cpath fill='%23ff3366' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E");
 }
 
 * { box-sizing: border-box; }
@@ -357,33 +354,16 @@ img.avatar { display: block; object-fit: cover; }
    a touch more presence than a plain heading and paragraph. Still no
    template of its own: these rules target the classes and the
    home-layout block ids (hero/features/cta, see home-layout.json) that
-   the "default" theme's generic home partials already render. --- */
+   the "default" theme's generic home partials already render. Plain, no
+   background pattern - the hero itself carries no call-to-action button
+   any more (a static block can't tell a logged-in account from a guest;
+   the dating extension's own homeSection right below it already shows
+   the right one either way). --- */
 .home-hero {
-    position: relative;
-    overflow: hidden;
     padding: 3rem 1.5rem;
     border-radius: var(--radius);
-    background:
-        radial-gradient(circle at 20% 25%, rgb(212 36 90 / .1), transparent 55%),
-        linear-gradient(180deg, var(--surface), var(--ground));
+    background: linear-gradient(180deg, var(--surface), var(--ground));
     text-align: center;
-}
-
-.home-hero::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    opacity: .35;
-    background-image: var(--hero-pattern);
-    background-repeat: space;
-    background-size: 56px 56px;
-    pointer-events: none;
-}
-
-.home-hero > * {
-    position: relative;
-    z-index: 1;
 }
 
 .home-hero h1 {

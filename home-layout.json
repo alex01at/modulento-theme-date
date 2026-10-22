@@ -7,15 +7,11 @@
     "texts": {
       "de": {
         "title": "Finde dein Match",
-        "text": "Erstelle ein Profil, entdecke Menschen in deiner Nähe und chatte, sobald es auf beiden Seiten passt.",
-        "button_label": "Kostenlos starten",
-        "button_url": "/register"
+        "text": "Erstelle ein Profil, entdecke Menschen in deiner Nähe und chatte, sobald es auf beiden Seiten passt."
       },
       "en": {
         "title": "Find your match",
-        "text": "Create a profile, discover people nearby, and chat the moment it clicks on both sides.",
-        "button_label": "Start for free",
-        "button_url": "/register"
+        "text": "Create a profile, discover people nearby, and chat the moment it clicks on both sides."
       }
     }
   },
