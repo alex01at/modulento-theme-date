@@ -102,10 +102,14 @@ a { color: var(--accent); }
 
 .site-header {
     /* The account menu opens below the header, against its right edge;
-       sticky with a blurred, translucent background, in the shape of the
-       dashboard mock-up this theme follows. */
-    position: sticky;
-    top: 0;
+       a blurred, translucent background, in the shape of the dashboard
+       mock-up this theme follows. Not sticky, on purpose: the core's own
+       impersonation banner (layout/_impersonation.twig) is sticky at the
+       very same top:0 - stacking this on top of it as a second sticky
+       element would cover its "stop impersonating" button, not stack
+       below it, since neither sticky element here knows the other
+       exists or its height. */
+    position: relative;
     z-index: 50;
     display: flex;
     flex-wrap: wrap;
@@ -626,16 +630,84 @@ img.avatar { display: block; object-fit: cover; }
     font-weight: 700;
 }
 
-/* --- The chat (templates/chat.twig): bubbles instead of plain left-bordered
-   paragraphs, "mine" on the right in the accent gradient. --- */
-.chat {
+/* --- The chat (templates/chat.twig): a messaging-app card - a header with
+   the other person's avatar and a kebab menu for unmatch/block/report
+   (collapsed by default, a <details> so it needs no script), a scrolling
+   message list, and a composer pinned to the card's bottom. Bubbles, not
+   plain left-bordered paragraphs; "mine" on the right in the accent
+   gradient. --- */
+.date-chat {
+    display: flex;
+    flex-direction: column;
+    height: min(42rem, 75vh);
+    overflow: hidden;
+    border-radius: 1.25rem;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: var(--shadow);
+}
+
+.date-chat-header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: .85rem;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--glass-border);
+    flex-shrink: 0;
+}
+
+.date-chat-header h1 {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.date-chat-menu {
+    margin-left: auto;
+}
+
+.date-chat-menu summary {
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    list-style: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: var(--muted);
+}
+
+.date-chat-menu summary::-webkit-details-marker { display: none; }
+.date-chat-menu summary:hover { background: var(--surface); color: var(--text); }
+
+.date-chat-menu-panel {
+    position: absolute;
+    top: calc(100% - .35rem);
+    right: 1rem;
+    z-index: 10;
+    display: grid;
+    gap: .75rem;
+    min-width: 14rem;
+    padding: 1rem;
+    border-radius: var(--radius);
+    background: var(--ground);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+}
+
+.date-chat-messages {
+    flex: 1 1 auto;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
     gap: .5rem;
-    margin: 1rem 0;
+    padding: 1.25rem;
 }
 
-.chat p {
+.date-chat-messages p {
     max-width: 75%;
     margin: 0;
     padding: .6rem .95rem;
@@ -645,11 +717,9 @@ img.avatar { display: block; object-fit: cover; }
 
 .chat-theirs {
     align-self: flex-start;
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
+    background: var(--surface);
+    border: 1px solid var(--line);
     border-bottom-left-radius: .3rem;
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
 }
 
 .chat-mine {
@@ -657,6 +727,34 @@ img.avatar { display: block; object-fit: cover; }
     background: linear-gradient(135deg, var(--accent), var(--accent-2));
     color: #fff;
     border-bottom-right-radius: .3rem;
+}
+
+.date-chat-composer {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    padding: .85rem 1rem;
+    border-top: 1px solid var(--glass-border);
+    flex-shrink: 0;
+}
+
+.date-chat-composer textarea {
+    flex: 1 1 auto;
+    resize: none;
+    max-height: 6rem;
+    padding: .65rem 1rem;
+    border-radius: 1.4rem;
+    background: var(--field);
+}
+
+.date-chat-composer button {
+    flex-shrink: 0;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    border-radius: 50%;
+    font-size: 1.1rem;
+    box-shadow: none;
 }
 
 /* The right rail's small promo widget (layout/base.twig): the one panel
