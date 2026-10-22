@@ -5,16 +5,20 @@ romantic look in rose and coral. Built for the [dating
 extension](https://github.com/alex01at/modulento-ext-dating).
 
 Unlike Modulento's other site themes (Indigo, Audigo, Merchigo, Card), this
-one brings no templates of its own at all - no bespoke layout, no card
-partials for offers or providers - because the dating extension has
-neither a catalogue nor provider profiles to give a bespoke layout to.
-Every page's markup comes straight from the `default` theme.
+one brings no card partials for offers or providers - the dating extension
+has neither a catalogue nor provider profiles to give a bespoke card
+layout to. It does bring its own `layout/base.twig`, for a three-column
+shell loosely in the shape of a social feed: a left nav rail, the page's
+own content in the middle, and a small static widget on the right. Every
+other page's markup - the account's settings tabs, the order pages, and
+so on - still comes straight from the `default` theme, just rendered
+inside that same three-column shell since all of them extend this layout.
 
 A theme's stylesheet is never merged with another's, though: whichever
 theme is active supplies the *only* stylesheet the site loads, for every
 page, including the ones this theme does not override. So `assets/theme.css`
 still has to be a complete stylesheet - every class any template on the
-site actually uses, not just a handful of colour variables - with two
+site actually uses, not just a handful of colour variables - with these
 things of its own on top:
 
 - **The colour palette**: every colour Modulento's `default` theme already
@@ -26,6 +30,29 @@ things of its own on top:
   call-to-action - instead of the default theme's catalogue-shaped
   hero/categories/offers/providers blocks, which would otherwise sit empty
   on a dating install.
+- **The three-column shell** (`layout/base.twig`, the grid rules for
+  `.app-shell`/`.app-rail`/`.app-widget`): a nav rail of the account's own
+  links (or login/register, logged out) on the left, and a small "new
+  profiles are waiting" widget on the right, linking to the swipe queue.
+  Below `68rem` the rails stack above and below the content instead of
+  beside it. The widget's own wording is in `lang/de.php` and `lang/en.php`
+  (keys starting `theme.widget.`), editable the same way any other
+  theme's small chrome texts are - see "Changing the wording" below.
+
+## Changing the wording
+
+The right-rail widget's wording is in `lang/de.php` and `lang/en.php`, with
+keys starting `theme.`. Do not edit them here - an update would replace
+the file. Put your own wording into `lang/<language>.php` of the
+installation:
+
+```php
+<?php
+
+return [
+    'theme.widget.text' => 'Schon wieder neue Leute in deiner Nähe.',
+];
+```
 
 Like the rest of the home page, every block is edited in place
 (**Administration → Home page**, or directly on the page itself when signed

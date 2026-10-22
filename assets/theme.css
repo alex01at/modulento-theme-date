@@ -111,7 +111,39 @@ a { color: var(--accent); }
 :root[data-theme="dark"] .site-logo-light { display: none; }
 :root[data-theme="dark"] .site-logo-dark { display: block; }
 
-main { flex: 1 0 auto; width: 100%; max-width: 64rem; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
+/* The three-column shell (layout/base.twig): a left nav rail, the page's
+   own content, a small static widget on the right - loosely the shape of
+   a social feed, not a live one. Below app-shell-breakpoint the rails
+   stack above/below the content instead of beside it, nav rail first
+   (DOM order already puts it there) and the widget last. */
+main.app-shell {
+    flex: 1 0 auto;
+    display: grid;
+    grid-template-columns: 14rem minmax(0, 1fr) 16rem;
+    gap: 1.5rem;
+    align-items: start;
+    width: 100%;
+    max-width: 78rem;
+    margin: 0 auto;
+    padding: 1.5rem 1rem 3rem;
+}
+
+.app-rail { position: sticky; top: 1rem; }
+.app-rail-left { display: grid; gap: .2rem; align-content: start; }
+.app-rail-left a { padding: .5rem .75rem; border-radius: var(--radius); color: var(--text); text-decoration: none; }
+.app-rail-left a:hover { background: var(--surface); color: var(--accent); }
+
+.app-widget { padding: 1.25rem; border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow); text-align: center; }
+.app-widget h2 { margin: 0 0 .4rem; font-size: 1rem; }
+.app-widget p { margin: 0 0 .9rem; color: var(--muted); font-size: .9rem; }
+
+@media (max-width: 68rem) {
+    main.app-shell { grid-template-columns: minmax(0, 1fr); }
+    .app-rail { position: static; }
+    .app-rail-left { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: 1.5rem; }
+    .app-rail-left a { border: 1px solid var(--line); border-radius: 2rem; padding: .35rem .8rem; }
+    .app-rail-right { order: 3; margin-top: 1.5rem; max-width: 24rem; }
+}
 .account-nav { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--line); }
 .account-nav a { padding: .35rem .8rem; border: 1px solid var(--line); border-radius: 2rem; text-decoration: none; }
 .account-nav a:hover { border-color: var(--accent); }

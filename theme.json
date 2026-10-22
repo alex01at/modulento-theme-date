@@ -1,7 +1,7 @@
 {
     "id": "date",
     "name": "Date",
-    "version": "0.1.2",
+    "version": "0.2.0",
     "requires": "0.68.4",
     "description": "A warm, romantic look in rose and coral, built for the dating extension."
 }

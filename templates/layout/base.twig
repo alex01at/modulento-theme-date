@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+{# Identical <head>/<header>/<footer> to the "default" theme's own base.twig -
+   only <main> is restructured below, into a three-column shell (nav rail,
+   content, a small widget rail) loosely in the shape of a social feed.
+   A fixed choice of the account is written out; without one the
+   stylesheet follows the device (prefers-color-scheme). #}
+{% set scheme = color_scheme() %}
+<html lang="{{ locale() }}"{% if scheme != 'auto' %} data-theme="{{ scheme }}"{% endif %}>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% set page_title %}{% block title %}{{ site_name }}{% endblock %}{% endset %}
+    <title>{{ page_title }}</title>
+    {% set page_description %}{% block meta_description %}{{ meta_description() }}{% endblock %}{% endset %}
+    {% if page_description %}<meta name="description" content="{{ page_description }}">{% endif %}
+    <meta property="og:site_name" content="{{ site_name }}">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ page_title }}">
+    {% if page_description %}<meta property="og:description" content="{{ page_description }}">{% endif %}
+    <meta property="og:url" content="{{ url(current_path(), null, true) }}">
+    {% set page_image %}{% block meta_image %}{{ site_logo('light') }}{% endblock %}{% endset %}
+    {% if page_image %}
+        <meta property="og:image" content="{{ site_url }}{{ page_image }}">
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:image" content="{{ site_url }}{{ page_image }}">
+    {% endif %}
+    {% if site_favicon() %}<link rel="icon" href="{{ site_favicon() }}">{% endif %}
+    {% for language in locale_urls() %}
+        <link rel="alternate" hreflang="{{ language.locale }}" href="{{ language.absolute_url }}">
+    {% endfor %}
+    <link rel="stylesheet" href="{{ theme_asset('theme.css') }}">
+    {# The design values of Administration → Design: after the theme's own sheet, so they win. #}
+    <link rel="stylesheet" href="{{ design_url() }}">
+    <script src="{{ theme_asset('password-toggle.js') }}" defer data-show="{{ trans('core.password.show') }}" data-hide="{{ trans('core.password.hide') }}"></script>
+    {% if account %}
+        <script src="{{ theme_asset('account-menu.js') }}" defer></script>
+        <script src="{{ theme_asset('unread.js') }}" defer></script>
+    {% if edit_mode() %}<script src="{{ admin_asset('editor.js') }}" defer></script>
+    <script src="{{ admin_asset('inline-edit.js') }}" defer></script>{% endif %}
+    {% endif %}
+    {% block head %}{% endblock %}
+</head>
+<body>
+{% include 'layout/_impersonation.twig' %}
+{% for banner in cookie_banners() %}
+    {% include banner.template with banner.data %}
+{% endfor %}
+<header class="site-header">
+    <a class="site-name" href="{{ url('/') }}">
+        {% set logoLight = site_logo('light') %}
+        {% if logoLight %}
+            <img class="site-logo site-logo-light" src="{{ logoLight }}" alt="{{ site_name }}">
+            {% set logoDark = site_logo('dark') %}
+            {% if logoDark != logoLight %}<img class="site-logo site-logo-dark" src="{{ logoDark }}" alt="{{ site_name }}">{% endif %}
+        {% else %}
+            {{ site_name }}
+        {% endif %}
+    </a>
+    <nav aria-label="{{ trans('core.nav.main') }}">
+        {% for link in page_links('header') %}
+            <a href="{{ link.url }}">{{ link.title }}</a>
+        {% endfor %}
+        {% for link in main_menu_links() %}
+            <a href="{{ link.url }}">{{ link.title }}</a>
+        {% endfor %}
+        {% if can('core.admin.access') %}
+            <a href="{{ url('/admin') }}">{{ trans('core.nav.admin') }}</a>
+        {% endif %}
+        {% if account %}
+            {% if provider_status() %}
+                <a href="{{ url('/account/offers') }}">{{ trans('core.offer.mine.title') }}</a>
+            {% endif %}
+            <a href="{{ url('/account') }}">{{ trans('core.nav.dashboard') }}</a>
+            {% if module('inbox') %}
+                <a class="inbox-link" href="{{ url('/account/messages') }}" aria-label="{{ trans('core.inbox.nav') }}">
+                    <span aria-hidden="true">✉</span>
+                    <span class="unread-badge" hidden data-unread data-url="{{ url('/account/unread') }}" data-poll="{{ poll_seconds() }}" data-label="{{ trans('core.account.unread.label') }}"></span>
+                </a>
+            {% endif %}
+            {% if module('notifications') %}
+                <a class="inbox-link" href="{{ url('/account/notifications') }}" aria-label="{{ trans('core.notification.nav') }}">
+                    <span aria-hidden="true">🔔</span>
+                    <span class="unread-badge" hidden data-unread data-url="{{ url('/account/notifications/unread') }}" data-poll="{{ poll_seconds() }}" data-label="{{ trans('core.account.unread.label') }}"></span>
+                </a>
+            {% endif %}
+            {% include 'layout/_account_menu.twig' %}
+        {% else %}
+            <a href="{{ url('/login') }}">{{ trans('core.nav.login') }}</a>
+            {% if registration_open() %}
+                <a href="{{ url('/register') }}">{{ trans('core.nav.register') }}</a>
+            {% endif %}
+        {% endif %}
+    </nav>
+</header>
+
+{# The three-column shell: a left nav rail, the page's own content, and a
+   small static widget on the right - a shape, not a live feed (nothing
+   here depends on data this theme has no business fetching itself). All
+   three are always present; the CSS collapses the rails below the content
+   on a narrow screen, nav rail first. #}
+<main class="app-shell">
+    <nav class="app-rail app-rail-left" aria-label="{{ trans('core.nav.account') }}">
+        {% if account %}
+            <a href="{{ url('/account') }}">{{ trans('core.dashboard.title') }}</a>
+            {% for link in account_links() %}
+                <a href="{{ link.url }}">{{ link.title }}</a>
+            {% endfor %}
+            <a href="{{ url('/account/settings') }}">{{ trans('core.account.settings') }}</a>
+        {% else %}
+            <a href="{{ url('/login') }}">{{ trans('core.nav.login') }}</a>
+            {% if registration_open() %}<a href="{{ url('/register') }}">{{ trans('core.nav.register') }}</a>{% endif %}
+        {% endif %}
+    </nav>
+
+    <div class="app-main">
+        {% for type, message in flashes %}
+            <p class="flash flash-{{ type }}" role="status">{{ message }}</p>
+        {% endfor %}
+        {% block content %}{% endblock %}
+    </div>
+
+    <aside class="app-rail app-rail-right" aria-label="{{ trans('theme.widget.title') }}">
+        <div class="app-widget">
+            <h2>{{ trans('theme.widget.title') }}</h2>
+            <p>{{ trans('theme.widget.text') }}</p>
+            <a class="button" href="{{ url('/dating/swipe') }}">{{ trans('theme.widget.cta') }}</a>
+        </div>
+    </aside>
+</main>
+
+<footer class="site-footer">
+    <nav aria-label="{{ trans('core.nav.footer') }}">
+        {% for link in page_links('footer') %}
+            <a href="{{ link.url }}">{{ link.title }}</a>
+        {% endfor %}
+        {% for link in footer_links() %}
+            <a href="{{ link.url }}">{{ link.title }}</a>
+        {% endfor %}
+    </nav>
+    {% set languages = locale_urls() %}
+    {% if languages|length > 1 %}
+        <nav aria-label="{{ trans('core.nav.language') }}" class="language-menu">
+            {% for language in languages %}
+                {% if language.current %}
+                    <span aria-current="true" lang="{{ language.locale }}">{{ language.name }}</span>
+                {% else %}
+                    <a href="{{ language.url }}" hreflang="{{ language.locale }}" lang="{{ language.locale }}">{{ language.name }}</a>
+                {% endif %}
+            {% endfor %}
+        </nav>
+    {% endif %}
+</footer>
+</body>
+</html>
