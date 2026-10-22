@@ -1,0 +1,58 @@
+[
+  {
+    "id": "hero",
+    "type": "hero",
+    "enabled": true,
+    "settings": {},
+    "texts": {
+      "de": {
+        "title": "Finde dein Match",
+        "text": "Erstelle ein Profil, entdecke Menschen in deiner Nähe und chatte, sobald es auf beiden Seiten passt.",
+        "button_label": "Kostenlos starten",
+        "button_url": "/register"
+      },
+      "en": {
+        "title": "Find your match",
+        "text": "Create a profile, discover people nearby, and chat the moment it clicks on both sides.",
+        "button_label": "Start for free",
+        "button_url": "/register"
+      }
+    }
+  },
+  {
+    "id": "features",
+    "type": "text",
+    "enabled": true,
+    "settings": {},
+    "texts": {
+      "de": {
+        "heading": "So funktioniert's",
+        "body": "<ol><li><h3>Profil anlegen</h3><p>Ein paar Fotos, ein kurzer Text, fertig - in wenigen Minuten online.</p></li><li><h3>Entdecken</h3><p>Profile in der gewählten Entfernung durchsehen, liken oder weiterblättern.</p></li><li><h3>Match &amp; Chat</h3><p>Gefällt es beiden Seiten, öffnet sich sofort ein eigener Chat.</p></li><li><h3>Selbst entscheiden</h3><p>Wer stört, wird mit einem Klick blockiert oder gemeldet - von Anfang an eingebaut.</p></li></ol>"
+      },
+      "en": {
+        "heading": "How it works",
+        "body": "<ol><li><h3>Create a profile</h3><p>A few photos, a short bio, done - live within minutes.</p></li><li><h3>Discover</h3><p>Browse profiles within the chosen distance, like them or move on.</p></li><li><h3>Match &amp; chat</h3><p>The moment it clicks on both sides, a chat opens right away.</p></li><li><h3>Stay in control</h3><p>Anyone who crosses a line is one click away from being blocked or reported - built in from day one.</p></li></ol>"
+      }
+    }
+  },
+  {
+    "id": "cta",
+    "type": "text",
+    "enabled": true,
+    "settings": {},
+    "texts": {
+      "de": {
+        "heading": "Kostenlos starten, bei Bedarf upgraden",
+        "body": "<p>Profil, Matches und Chat sind dauerhaft kostenlos. Ein Upgrade zeigt zusätzlich, wer einen schon gelikt hat, hebt das tägliche Like-Limit auf und bringt weitere Vorteile.</p>",
+        "button_label": "Preise ansehen",
+        "button_url": "/subscriptions"
+      },
+      "en": {
+        "heading": "Start for free, upgrade when you need to",
+        "body": "<p>Profile, matches and chat are free for good. An upgrade also shows who already liked you, lifts the daily like limit, and adds a few more perks.</p>",
+        "button_label": "See pricing",
+        "button_url": "/subscriptions"
+      }
+    }
+  }
+]

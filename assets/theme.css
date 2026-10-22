@@ -1,0 +1,66 @@
+/* Site theme "date": a warm, romantic look in rose and coral, built
+   for the dating extension. Deliberately palette-only - the dating app has
+   no catalogue (no offers, no provider profiles), so there is nothing to
+   give a bespoke card layout the way a marketplace theme would; every page
+   still comes from the "default" theme's own templates, and only looks
+   different because every colour here is the same CSS variable that theme
+   already reads. Colours are variables, so the dark scheme only has to
+   replace them. Light is the default; dark applies when the device asks
+   for it and the account has not chosen "light" (data-theme on <html>, see
+   color_scheme()), or when the account has chosen "dark". Both blocks
+   carry the same values. */
+:root {
+    color-scheme: light;
+    --ground: #fff8f8;
+    --text: #2b1620;
+    --muted: #8a5c68;
+    --line: #f0d3da;
+    --surface: #fff0f2;
+    --field: #fff;
+    --field-line: #d98aa0;
+    --accent: #d4245a;
+    /* Text and icons on a filled accent, error or success area. */
+    --on-accent: #fff;
+    --error: #b3261e;
+    --success: #1c6b3a;
+    --rating: #b5800a;
+    --shadow: 0 .5rem 1.5rem rgb(212 36 90 / .18);
+    --font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --radius: .6rem;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+        color-scheme: dark;
+        --ground: #1a1216;
+        --text: #f3e3e8;
+        --muted: #c99aa6;
+        --line: #3d242b;
+        --surface: #241a1e;
+        --field: #201519;
+        --field-line: #8a4f5c;
+        --accent: #ff7a9a;
+        --on-accent: #1a1216;
+        --error: #ff9a94;
+        --success: #7ad9a0;
+        --rating: #f0bb5a;
+        --shadow: 0 .5rem 1.5rem rgb(0 0 0 / .5);
+    }
+}
+
+:root[data-theme="dark"] {
+    color-scheme: dark;
+    --ground: #1a1216;
+    --text: #f3e3e8;
+    --muted: #c99aa6;
+    --line: #3d242b;
+    --surface: #241a1e;
+    --field: #201519;
+    --field-line: #8a4f5c;
+    --accent: #ff7a9a;
+    --on-accent: #1a1216;
+    --error: #ff9a94;
+    --success: #7ad9a0;
+    --rating: #f0bb5a;
+    --shadow: 0 .5rem 1.5rem rgb(0 0 0 / .5);
+}
