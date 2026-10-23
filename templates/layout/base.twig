@@ -10,15 +10,24 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Modulento">
+    <meta name="theme-color" content="{{ design_accent() }}">
+    <meta name="robots" content="{% block robots %}index, follow{% endblock %}">
     {% set page_title %}{% block title %}{{ site_name }}{% endblock %}{% endset %}
     <title>{{ page_title }}</title>
     {% set page_description %}{% block meta_description %}{{ meta_description() }}{% endblock %}{% endset %}
     {% if page_description %}<meta name="description" content="{{ page_description }}">{% endif %}
+    {% set canonical_url = url(current_path(), null, true) %}
+    {% set languages = locale_urls() %}
+    <link rel="canonical" href="{{ canonical_url }}">
     <meta property="og:site_name" content="{{ site_name }}">
     <meta property="og:type" content="website">
     <meta property="og:title" content="{{ page_title }}">
     {% if page_description %}<meta property="og:description" content="{{ page_description }}">{% endif %}
-    <meta property="og:url" content="{{ url(current_path(), null, true) }}">
+    <meta property="og:url" content="{{ canonical_url }}">
+    <meta property="og:locale" content="{{ og_locale(locale()) }}">
+    {% for language in languages %}
+        {% if not language.current %}<meta property="og:locale:alternate" content="{{ og_locale(language.locale) }}">{% endif %}
+    {% endfor %}
     {% set page_image %}{% block meta_image %}{{ site_logo('light') }}{% endblock %}{% endset %}
     {% if page_image %}
         <meta property="og:image" content="{{ site_url }}{{ page_image }}">
@@ -26,7 +35,7 @@
         <meta name="twitter:image" content="{{ site_url }}{{ page_image }}">
     {% endif %}
     {% if site_favicon() %}<link rel="icon" href="{{ site_favicon() }}">{% endif %}
-    {% for language in locale_urls() %}
+    {% for language in languages %}
         <link rel="alternate" hreflang="{{ language.locale }}" href="{{ language.absolute_url }}">
     {% endfor %}
     <link rel="stylesheet" href="{{ theme_asset('theme.css') }}">
